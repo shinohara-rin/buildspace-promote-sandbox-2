@@ -27,6 +27,7 @@ jobs:
       contents: write
       actions: read
       attestations: read
+      pull-requests: read
     with:
       package-name: promote-sandbox
       staging-version: ${{ inputs.staging-version }}
