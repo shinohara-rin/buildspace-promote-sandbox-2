@@ -1,0 +1,29 @@
+name: Stage
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build and package only, without publishing a staging release
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  stage:
+    # BUILDSPACE_REF: setup.sh points this and promote.yml at the branch under test.
+    uses: shinohara-rin/buildspace/.github/workflows/swift-stage.yml@c7641536dae55a315ede797f9f3da18184ed4469
+    permissions:
+      contents: write
+      actions: read
+      attestations: write
+      id-token: write
+      pull-requests: read
+    with:
+      package-name: promote-sandbox
+      identifier: codes.photon.promote-sandbox
+      dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}

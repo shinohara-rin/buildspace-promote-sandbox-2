@@ -1,0 +1,36 @@
+name: Promote
+
+on:
+  workflow_dispatch:
+    inputs:
+      staging-version:
+        description: Staging build to promote, such as 0.1.0-staging.123456789.1; blank promotes the newest
+        type: string
+        default: ''
+      minimum-staging-age:
+        description: Minimum staging age; short here so a test takes minutes, not hours
+        type: string
+        default: 5m
+      skip-minimum-age-reason:
+        description: Hotfix only; promote before the minimum staging age and say why
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    # BUILDSPACE_REF: setup.sh points this and stage.yml at the branch under test.
+    uses: shinohara-rin/buildspace/.github/workflows/swift-promote.yml@c7641536dae55a315ede797f9f3da18184ed4469
+    permissions:
+      contents: write
+      actions: read
+      attestations: read
+      pull-requests: read
+    with:
+      package-name: promote-sandbox
+      staging-version: ${{ inputs.staging-version }}
+      minimum-staging-age: ${{ inputs.minimum-staging-age }}
+      skip-minimum-age-reason: ${{ inputs.skip-minimum-age-reason }}
+      # No jamf-url: nothing is uploaded to Jamf.
