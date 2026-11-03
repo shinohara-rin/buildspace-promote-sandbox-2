@@ -22,7 +22,7 @@ permissions:
 jobs:
   promote:
     # BUILDSPACE_REF: setup.sh points this and stage.yml at the branch under test.
-    uses: shinohara-rin/buildspace/.github/workflows/swift-promote.yml@c7641536dae55a315ede797f9f3da18184ed4469
+    uses: shinohara-rin/buildspace/.github/workflows/swift-promote.yml@1ee44447bd84dc35ab1e7cc02ea185a61ca02ff3
     permissions:
       contents: write
       actions: read
